@@ -24,3 +24,18 @@ var styles = StyleSheet.create({
 		alignItems: 'center'
 	}
 });
+
+class SearchPage extends Component {
+	render() {
+		return (
+			<View style={styles.container}>
+				<Text style={styles.description}>
+					Search for houses to buy!
+				</Text>
+				<Text style={styles.description}>
+					Search by place-name, postcode or search near your location.
+				</Text>
+			</View>
+			);
+	}
+}
