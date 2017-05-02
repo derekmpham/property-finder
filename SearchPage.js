@@ -29,12 +29,25 @@ class SearchPage extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text style={styles.description}>
-					Search for houses to buy!
-				</Text>
-				<Text style={styles.description}>
-					Search by place-name, postcode or search near your location.
-				</Text>
+			<Text style={styles.description}>
+			Search for houses to buy!
+			</Text>
+			<Text style={styles.description}>
+			Search by place-name, postcode or search near your location.
+			</Text>
+			<View style={styles.flowRight}>
+			<TextInput
+			style={styles.searchInput}
+			placeholder='Search via name or postcode'/>
+			<TouchableHighlight style={styles.button}
+			underlayColor='#99d9f4'>
+			<Text style={styles.buttonText}>Go</Text>
+			</TouchableHighlight>
+			</View>
+			<TouchableHighlight style={styles.button}
+			underlayColor='#99d9f4'>
+			<Text style={styles.buttonText}>Location</Text>
+			</TouchableHighlight>
 			</View>
 			);
 	}
