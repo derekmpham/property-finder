@@ -39,3 +39,5 @@ class SearchPage extends Component {
 			);
 	}
 }
+
+module.exports = SearchPage;
