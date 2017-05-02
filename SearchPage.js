@@ -22,7 +22,7 @@ var styles = StyleSheet.create({
 		padding: 30,
 		marginTop: 65,
 		alignItems: 'center'
-	}
+	},
 	flowRight: {
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -45,7 +45,7 @@ var styles = StyleSheet.create({
 		alignSelf: 'stretch',
 		justifyContent: 'center'
 	},
-	searchInput {
+	searchInput: {
 		height: 36,
 		padding: 4,
 		marginRight: 5,
