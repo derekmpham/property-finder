@@ -75,7 +75,7 @@ function urlForQueryAndPage(key, value, pageNumber) {
 	var querystring = Object.keys(data)
 		.map(key => key + '=' + encodeURIComponent(data[key]))
 		.join('&');
-	return 'http://api.nestoria.co.uk/api?' + querystring;
+	return 'https://api.nestoria.co.uk/api?' + querystring;
 };
 
 class SearchPage extends Component {
@@ -83,7 +83,8 @@ class SearchPage extends Component {
 		super(props);
 		this.state = {
 			searchString: 'london',
-			isLoading: false
+			isLoading: false,
+			message: ''
 		};
 	}
 	onSearchTextChanged(event) {
@@ -121,17 +122,35 @@ class SearchPage extends Component {
 			</TouchableHighlight>
 			<Image source={require('./Resources/house.png')} style={styles.image}/>
 			{spinner}
+			<Text style={styles.description}>{this.state.message}</Text>
 			</View>
 			);
 	}
 	_executeQuery(query) {
 		console.log(query);
 		this.setState({ isLoading: true });
+		fetch(query)
+			.then(response => response.json())
+			.then(json => this._handleResponse(json.response))
+			.catch(error =>
+				this.setState({
+					isLoading: false,
+					message: 'Something bad happened' + error
+				}));
 	}
 
 	onSearchPressed() {
 		var query = urlForQueryAndPage('place_name', this.state.searchString, 1);
 		this._executeQuery(query);
+	}
+
+	_handleResponse(response) {
+		this.setState({ isLoading: false, message: ''});
+		if (response.application_response_code.substr(0, 1) === '1') {
+			console.log('Properties found: ' + response.listings.length);
+		} else {
+			this.setState({ message: 'Location not recognized; please try again.'});
+		}
 	}
 }
 
