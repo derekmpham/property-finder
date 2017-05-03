@@ -75,8 +75,8 @@ function urlForQueryAndPage(key, value, pageNumber) {
 	data[key] = value;
 
 	var querystring = Object.keys(data)
-		.map(key => key + '=' + encodeURIComponent(data[key]))
-		.join('&');
+	.map(key => key + '=' + encodeURIComponent(data[key]))
+	.join('&');
 	return 'https://api.nestoria.co.uk/api?' + querystring;
 };
 
@@ -96,9 +96,9 @@ class SearchPage extends Component {
 	}
 	render() {
 		var spinner = this.state.isLoading ?
-			( <ActivityIndicator
-				size='large'/> ) :
-			( <View/> );
+		( <ActivityIndicator
+			size='large'/> ) :
+		( <View/> );
 		return (
 			<View style={styles.container}>
 			<Text style={styles.description}>
@@ -119,7 +119,7 @@ class SearchPage extends Component {
 			</TouchableHighlight>
 			</View>
 			<TouchableHighlight style={styles.button}
-			underlayColor='#99d9f4'>
+			underlayColor='#99d9f4' onPress={this.onLocationPressed.bind(this)}>
 			<Text style={styles.buttonText}>Location</Text>
 			</TouchableHighlight>
 			<Image source={require('./Resources/house.png')} style={styles.image}/>
@@ -132,13 +132,13 @@ class SearchPage extends Component {
 		console.log(query);
 		this.setState({ isLoading: true });
 		fetch(query)
-			.then(response => response.json())
-			.then(json => this._handleResponse(json.response))
-			.catch(error =>
-				this.setState({
-					isLoading: false,
-					message: 'Something bad happened' + error
-				}));
+		.then(response => response.json())
+		.then(json => this._handleResponse(json.response))
+		.catch(error =>
+			this.setState({
+				isLoading: false,
+				message: 'Something bad happened' + error
+			}));
 	}
 
 	onSearchPressed() {
@@ -157,6 +157,21 @@ class SearchPage extends Component {
 		} else {
 			this.setState({ message: 'Location not recognized; please try again.'});
 		}
+	}
+
+	onLocationPressed() {
+		navigator.geolocation.getCurrentPosition(
+			location => {
+				var search = location.coords.latitude + ',' + location.coords.longitude;
+				this.setState({ searchString: search });
+				var query = urlForQueryAndPage('centre_point', search, 1);
+				this._executeQuery(query);
+			},
+			error => {
+				this.setState({
+					message: 'There was a problem with obtaining your location: ' + error
+				});
+			});
 	}
 }
 
